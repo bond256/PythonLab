@@ -1,0 +1,23 @@
+{% extends 'Lab1/base.html' %}
+{% block content %}
+<div class='my-4'>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Название</th>
+            <th scope="col">Текст</th>
+            <th scope="col">Кол-во</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for link in all_links %}
+                <tr>
+                    <td>{{ link.link_name }}</td>
+                    <td>{{ link.success_text }}</td>
+                    <td>{{ link.counter }} </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'Lab1/base.html' %}
+
+{% block content %}
+<div class='my-3'>
+    {% if user.is_authenticated %}
+       <p> Т.к. вы - админ, Вы можете <label><a href="{% url 'admin-statistics' %}">посмотреть статистику</a></label></p>
+    {% endif %}
+
+    {% for link in all_links %}
+      <div class="card text-center my-4">
+        <div class="card-header">
+            {{ link.link_name }}
+        </div>
+        <div class="card-body">
+          <!-- <h5 class="card-title">Special title treatment</h5>
+          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> -->
+          <a href="{% url 'link' id=link.id %}"><button class='my-3 btn btn-lg btn-block' onclick="add_visit('{{ link.id }}');">Перейти</button></a>
+        </div>
+        <div class="card-footer text-muted">
+         {% if user.is_superuser %}
+            {{ link.counter }} переходов
+         {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+
+</div>
+{% endblock %}
+
+{% block custom_js %}
+<script>
+    function add_visit(id){
+        $.ajax({
+      type: 'GET',
+      async: true,
+      url: '/ajax/add-visit/',
+      data: {
+        'id' : id,
+      },
+      error: function(data) {
+        alert('Some error with ajax request.');
+     },
+      dataType: 'json',
+    });
+    };
+</script>
+{% endblock %}
